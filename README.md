@@ -1,8 +1,8 @@
 WCatalog 是一个基于Gradle 7.0的统一依赖项目。目前是发布到本地仓库中。
-位置：～.m2/repository
-使用：
+位置：`～/.m2/repository`
+### 使用：
 ```
-# settings.gradle
+# settings.gradle.kts
 dependencyResolutionManagement {
     //...
     repositories {
@@ -20,6 +20,44 @@ dependencyResolutionManagement {
     }
 }
 
+```
+```
+# build.gradle.kts
+dependencies {
+
+    api(libs.bundles.kotlin)
+
+    // AndroidX
+    api(libs.core.ktx)
+    api(libs.appcompat)
+    api(libs.fragment.ktx)
+    api(libs.collection.ktx)
+    api(libs.datastore.preferences)
+    api(libs.recyclerview)
+    api(libs.constraintLayout)
+
+    // Jetpack
+    api(libs.bundles.room)
+    api(libs.bundles.lifecycle)
+    api(libs.bundles.navigation)
+    kapt(libs.room.compiler)
+    kapt(libs.lifecycle.compiler)
+
+    // Google
+    api(libs.material)
+    api(libs.bundles.hilt)
+    kapt(libs.hilt.compiler)
+    kapt(libs.hilt.android.compiler)
+
+    //Github
+    api(libs.bundles.coil)
+    api(libs.bundles.moshi)
+    api(libs.bundles.network)
+    api(libs.recyclerviewHelper)
+    api(libs.permissionsdispatcher)
+    kapt(libs.moshi.kotlin.codegen)
+    kapt(libs.permissionsdispatcher.processor)
+}
 ```
 
 ## AndroidX
@@ -65,9 +103,18 @@ androidx.lifecycle 软件包提供了可用于构建生命周期感知型组件�
 
 ### 📖 [Hilt](https://developer.android.com/training/dependency-injection/hilt-android?hl=zh-cn) 版本：2.40.5
 Hilt 是 Android 的依赖项注入库，可减少在项目中执行手动依赖项注入的样板代码。
-在`app/build.gradle`中添加
 ```
-...
+根级build.gradle添加Gradle插件
+buildscript {
+    ...
+    dependencies {
+        ...
+        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28-alpha'
+    }
+}
+```
+```
+app/build.gradle中添加插件
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
